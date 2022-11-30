@@ -24,12 +24,13 @@ uint32_t getseed(uint8_t* name);
 uint8_t getrand();
 uint8_t calc(uint8_t* name);
 
-uint32_t seed = 0;				// 이름으로 만든 seed 값
-size_t length = 0;				// 이름 길이
-uint8_t operators[8] = { 0 };	// 연산 순서 저장
+uint32_t seed = 0;						// 이름으로 만든 seed 값
+size_t length = 0;						// 이름 길이
+uint8_t operators[8] = { 0 };			// 연산 순서 저장
 uint8_t operand1[8] = { 0 };			// 연산에 사용될 첫 번째 오퍼랜드
 uint8_t operand2[8] = { 0 };			// 연산에 사용될 두 번째 오퍼랜드
-uint8_t res[8] = { 0 };					// 연산 저장될 변수
+uint8_t comres1[8] = { 0 };					// 내부 연산 저장될 변수
+uint8_t comres2[8] = { 0 };					// 파일 NAND 연산 저장될 변수
 
 int main() {
 
@@ -83,7 +84,6 @@ uint8_t getrand()
 		printf("index : %d\n", operand1[i]);
 		printf("index : %d\n", operand2[i]);
 	}
-	
 	return 0;
 }
 
@@ -99,19 +99,25 @@ uint8_t calc(uint8_t* name)
 		switch (operators[i])
 		{
 		case 0:
-			res[i] = name[op1] + name[op2];
+			comres1[i] = name[op1] + name[op2];
+			printf("%X + %X = %X[%d]\n", name[op1], name[op2], comres1[i], i);
 			break;
 		case 1:
-			res[i] = name[op1] - name[op2];
+			comres1[i] = name[op1] - name[op2];
+			printf("%X - %X = %X[%d]\n", name[op1], name[op2], comres1[i], i);
 			break;
 		case 2:
-			res[i] = name[op1] * name[op2];
+			comres1[i] = name[op1] * name[op2];
+			printf("%X * %X = %X[%d]\n", name[op1], name[op2], comres1[i], i);
 			break;
 		case 3:
-			res[i] = name[op1] ^ name[op2];
+			comres1[i] = name[op1] ^ name[op2];
+			printf("%X ^ %X = %X[%d]\n", name[op1], name[op2], comres1[i], i);
 			break;
 		}
-		printf("%X", res[i]);
 	}
+
+	for (size_t i = 0; i < length; i++)
+		printf("%02X ", comres1[i]);
 	return 0;
 }
