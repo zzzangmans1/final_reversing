@@ -31,7 +31,7 @@
 
 */
 // C:\\Users\\leewonjoo\\Desktop\\file.key
-uint8_t filename[100] = "C:\\Users\\leewonjoo\\Desktop\\1234.txt";
+uint8_t filename[100] = "";
 
 uint8_t namelengcheck(uint8_t* );
 uint8_t filelengcheck(uint8_t* );
